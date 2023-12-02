@@ -30,25 +30,8 @@ var Marbles;
     Marbles[Marbles["green"] = 1] = "green";
     Marbles[Marbles["blue"] = 2] = "blue";
 })(Marbles || (Marbles = {}));
-const marblesBag = new Map([
-    [Marbles.red, 12],
-    [Marbles.green, 13],
-    [Marbles.blue, 14]
-]);
-function isValidGame(marblesBag, gameMarbles) {
-    let result = true;
-    marblesBag.forEach((value, key) => {
-        if (gameMarbles.get(key) !== undefined && gameMarbles.get(key) > value) {
-            console.log("false");
-            result = false;
-        }
-    });
-    return result;
-}
-function getGameData(gameData) {
+function getGameValue(gameData) {
     let parsedData = gameData.substring(5).split(":");
-    /// Get ID
-    let id = parseInt(parsedData[0]);
     /// Get Marbles
     let marbles = new Map([
         [Marbles.red, 0],
@@ -64,15 +47,18 @@ function getGameData(gameData) {
             }
         });
     });
-    return [id, marbles];
+    let result = 1;
+    console.log(marbles);
+    marbles.forEach((value) => {
+        result = result * value;
+    });
+    return result;
 }
 fs.readFile('input.txt', 'utf8', (err, data) => {
     let total = 0;
     const lines = data.split("\n");
     lines.forEach(line => {
-        let [id, marbles] = getGameData(line);
-        console.log(getGameData(line));
-        total += isValidGame(marblesBag, marbles) ? id : 0;
+        total += getGameValue(line);
     });
     console.log(total);
     return total;
