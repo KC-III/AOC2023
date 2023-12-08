@@ -4,7 +4,10 @@ const calculateDistanceTravelled = ((velocity, time) => velocity * time);
 const getAllDistanceBeaters = ((time, record) => {
     let result = 0;
     for (let i = 0; i < time; i++) {
-        result += calculateDistanceTravelled(i, time - i) > record ? 1 : 0;
+        let travel = calculateDistanceTravelled(i, time - i);
+        if (travel > record) {
+            result += 1;
+        }
     }
     return result;
 });
